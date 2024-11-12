@@ -35,7 +35,7 @@ import com.example.waterme.VERBOSE_NOTIFICATION_CHANNEL_NAME
 
 fun makePlantReminderNotification(
     message: String,
-    context: Context
+    context: Context,
 ) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         // Create the NotificationChannel, but only on API 26+ because

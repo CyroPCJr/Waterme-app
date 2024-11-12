@@ -26,5 +26,5 @@ data class Reminder(
     @StringRes val durationRes: Int,
     val duration: Long,
     val unit: TimeUnit,
-    val plantName: String
+    val plantName: String,
 )

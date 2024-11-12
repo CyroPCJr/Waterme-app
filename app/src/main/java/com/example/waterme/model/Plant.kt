@@ -28,5 +28,5 @@ data class Plant(
     @StringRes val name: Int,
     @StringRes val type: Int,
     @StringRes val description: Int,
-    @StringRes val schedule: Int
-): Parcelable
+    @StringRes val schedule: Int,
+) : Parcelable

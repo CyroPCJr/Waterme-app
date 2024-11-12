@@ -23,12 +23,12 @@ import com.example.waterme.R
 
 class WaterReminderWorker(
     context: Context,
-    workerParams: WorkerParameters
+    workerParams: WorkerParameters,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
 
-        val plantName = inputData.getString(nameKey)
+        val plantName = inputData.getString(NAME_KEY)
 
         makePlantReminderNotification(
             applicationContext.resources.getString(R.string.time_to_water, plantName),
@@ -39,6 +39,6 @@ class WaterReminderWorker(
     }
 
     companion object {
-        const val nameKey = "NAME"
+        const val NAME_KEY = "NAME"
     }
 }

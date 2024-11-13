@@ -28,3 +28,10 @@ data class Reminder(
     val unit: TimeUnit,
     val plantName: String,
 )
+
+data class ReminderChallenge(
+    val durationStr: String,
+    val plantName: String,
+    val duration: Long,
+    val unit: TimeUnit,
+)

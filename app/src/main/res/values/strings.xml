@@ -20,6 +20,11 @@
     <string name="one_day">1 day</string>
     <string name="one_week">1 week</string>
     <string name="one_month">1 month</string>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
     <string name="water">Water</string>
     <string name="time_to_water">It\'s time to water your %s.</string>
 

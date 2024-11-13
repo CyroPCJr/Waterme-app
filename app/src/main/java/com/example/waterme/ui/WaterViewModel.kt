@@ -23,13 +23,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.waterme.WaterMeApplication
 import com.example.waterme.data.Reminder
+import com.example.waterme.data.ReminderChallenge
 import com.example.waterme.data.WaterRepository
 
 class WaterViewModel(private val waterRepository: WaterRepository) : ViewModel() {
 
     internal val plants = waterRepository.plants
 
-    fun scheduleReminder(reminder: Reminder) {
+    fun scheduleReminder(reminder: ReminderChallenge) {
         waterRepository.scheduleReminder(reminder.duration, reminder.unit, reminder.plantName)
     }
 

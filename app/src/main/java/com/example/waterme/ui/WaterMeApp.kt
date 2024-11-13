@@ -44,18 +44,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.waterme.FIVE_SECONDS
-import com.example.waterme.ONE_DAY
+import com.example.waterme.ONE_MINUTE
 import com.example.waterme.R
-import com.example.waterme.SEVEN_DAYS
-import com.example.waterme.THIRTY_DAYS
+import com.example.waterme.THREE_MINUTE
+import com.example.waterme.TWO_MINUTE
 import com.example.waterme.data.DataSource
-import com.example.waterme.data.Reminder
+import com.example.waterme.data.ReminderChallenge
 import com.example.waterme.model.Plant
 import com.example.waterme.ui.theme.WaterMeTheme
 import java.util.concurrent.TimeUnit
@@ -88,7 +89,7 @@ fun WaterMeApp(waterViewModel: WaterViewModel = viewModel(factory = WaterViewMod
 @Composable
 fun PlantListContent(
     plants: List<Plant>,
-    onScheduleReminder: (Reminder) -> Unit,
+    onScheduleReminder: (ReminderChallenge) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedPlant by rememberSaveable { mutableStateOf(plants[0]) }
@@ -150,14 +151,30 @@ fun PlantListItem(plant: Plant, onItemSelect: (Plant) -> Unit, modifier: Modifie
 fun ReminderDialogContent(
     onDialogDismiss: () -> Unit,
     plantName: String,
-    onScheduleReminder: (Reminder) -> Unit,
+    onScheduleReminder: (ReminderChallenge) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val reminders = listOf(
-        Reminder(R.string.five_seconds, FIVE_SECONDS, TimeUnit.SECONDS, plantName),
-        Reminder(R.string.one_day, ONE_DAY, TimeUnit.DAYS, plantName),
-        Reminder(R.string.one_week, SEVEN_DAYS, TimeUnit.DAYS, plantName),
-        Reminder(R.string.one_month, THIRTY_DAYS, TimeUnit.DAYS, plantName)
+//    val reminders = listOf(
+//        Reminder(R.string.five_seconds, FIVE_SECONDS, TimeUnit.SECONDS, plantName),
+//        Reminder(R.string.one_day, ONE_DAY, TimeUnit.DAYS, plantName),
+//        Reminder(R.string.one_week, SEVEN_DAYS, TimeUnit.DAYS, plantName),
+//        Reminder(R.string.one_month, THIRTY_DAYS, TimeUnit.DAYS, plantName)
+//    )
+
+    val messageMinutesPlurals: @Composable (Int, Int) -> String = { count, args ->
+        pluralStringResource(R.plurals.minutes, count, args)
+    }
+
+    val remindersChallenge = listOf(
+        ReminderChallenge(
+            stringResource(R.string.five_seconds),
+            plantName,
+            FIVE_SECONDS,
+            TimeUnit.SECONDS
+        ),
+        ReminderChallenge(messageMinutesPlurals(1, 1), plantName, ONE_MINUTE, TimeUnit.MINUTES),
+        ReminderChallenge(messageMinutesPlurals(2, 2), plantName, TWO_MINUTE, TimeUnit.MINUTES),
+        ReminderChallenge(messageMinutesPlurals(2, 3), plantName, THREE_MINUTE, TimeUnit.MINUTES)
     )
 
     AlertDialog(
@@ -166,9 +183,9 @@ fun ReminderDialogContent(
         title = { Text(stringResource(R.string.remind_me, plantName)) },
         text = {
             Column {
-                reminders.forEach {
+                remindersChallenge.forEach {
                     Text(
-                        text = stringResource(it.durationRes),
+                        text = it.durationStr,
                         modifier = Modifier
                             .clickable {
                                 onScheduleReminder(it)
